@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SocialNetwork.Models.Albums>
+
+@{
+    ViewBag.Title = "Albums List";
+    SocialNetwork.Models.Users user = (SocialNetwork.Models.Users)Session["session"];
+}
+
+<h2>AlbumsList</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Photos
+        </th>
+        <th>
+            Show all photos
+        </th>
+    </tr>
+    @foreach (SocialNetwork.Models.Albums album in Model)
+    {
+        <tr>
+            <td>
+                @album.Title
+            </td>
+            <td>
+                @album.Pictures
+            </td>
+            <td>
+                @Html.ActionLink("Watch all photos", "GetImages", new { albumID = album.ID })
+            </td>
+        </tr>
+    }
+</table>
+
+@using (Html.BeginForm("CreateAlbum", "Album", new { creatorID = user.ID }, FormMethod.Post))
+{
+    <p>
+        Input label of new album: 
+    </p>
+    <p>
+        @Html.TextBox("title", null, new { @class = "form-control" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </p>
+}

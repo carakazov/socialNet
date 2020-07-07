@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SocialNetwork.Models.Albums>
+
+@{
+    ViewBag.Title = "Albums List";
+    int userID = (int)ViewData["userID"];
+}
+
+<h2>AlbumsList</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Photos
+        </th>
+        <th>
+            Show all photos
+        </th>
+    </tr>
+    @foreach (SocialNetwork.Models.Albums album in Model)
+    {
+        <tr>
+            <td>
+                @album.Title
+            </td>
+            <td>
+                @album.Pictures
+            </td>
+            <td>
+                @Html.ActionLink("Watch all photos", "UsersImages", new { albumID = album.ID, userID })
+            </td>
+        </tr>
+    }
+</table>
+
+

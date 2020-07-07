@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="366888217ed446c486d71a411b6d76b6" Name="Diagram1">
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.Albums" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.FriendList" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.Groups" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.GroupUser" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.ImageAlbum" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.Images" Width="1.5" PointX="3" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.MessagesList" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.Records" Width="1.5" PointX="3" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.RequestsList" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetDataBaseModel.Users" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_Albums_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_ImageAlbum_Albums" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_FriendList_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_Groups_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_GroupUser_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_GroupUser_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_ImageAlbum_Images" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_MessagesList_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_Records_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_Records_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetDataBaseModel.FK_RequestsList_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

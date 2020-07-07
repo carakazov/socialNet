@@ -1,0 +1,90 @@
+﻿@model SocialNetwork.Models.Users
+@{
+    ViewBag.Title = "MyProfile";
+    SocialNetwork.Models.Users user = (SocialNetwork.Models.Users)Session["session"];
+    SocialNetwork.Models.Images images = (SocialNetwork.Models.Images)ViewData["avatar"];
+}
+
+<h2>MyProfile</h2>
+
+<div>
+    <label>You have recived friendship request:</label>
+    <div id="requestsList">
+        <label>None</label>
+        @Ajax.ActionLink("Show requests", "ShowRequests", "Profile", new { userID = Model.ID }, new AjaxOptions { UpdateTargetId = "requestsList" })
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("To my friend list", "FriendList", "FriendManagement", new { login = user.Login }, null)
+</div>
+
+<div id="avatar">
+    @using SocialNetwork.Helpers;
+    @Html.DrowAvatar(user.ID)
+</div>
+
+<div>
+    @using (Html.BeginForm("ChangeAvatar", "Profile", new { userID = user.ID }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="avatar"/>
+        <input type="submit" value="Change avatar" />
+    }
+</div>
+
+<div>
+    <h4>Users</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label>Surname: </label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            <label>Name: </label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            <label>Middle name: </label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Middle_name)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit profile", "EditProfile", "Profile", new { userID = Model.ID }, null)
+</div>
+
+<div>
+    <label>Records on the wall:</label>
+        <div id="records">
+            @{Html.RenderAction("ShowRecords", new { userID = user.ID }); }
+        </div>
+        @using (Ajax.BeginForm("WriteRecordOnMyWall", new { userID = user.ID }, new AjaxOptions { UpdateTargetId = "records", OnComplete = "document.getElementById('newRecord').value = '';" }))
+        {
+            <div>
+                @Html.TextBox("text", null, new { id = "newRecord" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Write" class="btn btn-default" />
+                </div>
+            </div>
+        }
+</div>
+
+<div>
+    @Html.ActionLink("My albums list", "ShowAlbums", "Album", new { userID = user.ID }, null)
+</div>
+
+

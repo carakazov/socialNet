@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "StartPage";   
+}
+
+<h2>Log in page</h2>
+<label>Have accaunt already? Log in!</label>
+@using (Html.BeginForm("LogIn", "Accaunt", FormMethod.Post))
+{
+    <div>
+        <label>Input your login: </label>
+        @Html.TextBox("login", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control" })
+    </div>
+    <div>
+        <label>Input your password: </label>
+        @Html.TextBox("password", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Log in" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<label>Want to become user? Link to registration page: </label>
+@Html.ActionLink("Registrate", "Registrate");
+

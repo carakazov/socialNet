@@ -1,0 +1,35 @@
+﻿@model IEnumerable<SocialNetwork.Models.Images>
+@using SocialNetwork.Helpers
+@{
+    ViewBag.Title = "Photos";
+    int albumID = Convert.ToInt32(ViewData["albumID"]);
+    int user = (int)ViewData["userID"];
+}
+
+@Html.ActionLink("To user's page", "ShowProfile", "Profile", new { userID = user }, null)
+
+<h2>Photos</h2>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Picture
+            </th>
+        </tr>
+        @foreach (SocialNetwork.Models.Images image in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DrowPicture(image)
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <label>This album has no photos</label>
+}
+
+

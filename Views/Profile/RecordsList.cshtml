@@ -1,0 +1,10 @@
+﻿@{ 
+    IEnumerable<string> list = (IEnumerable<string>)ViewData["records"];
+}
+
+@foreach(string record in list)
+{
+    <p>
+        @record
+    </p>
+}

@@ -1,0 +1,130 @@
+﻿@model IEnumerable<SocialNetwork.Models.Users>
+
+
+@{
+    ViewBag.Title = "FriendList";
+    SocialNetwork.Models.Users user = (SocialNetwork.Models.Users)Session["session"];
+}
+
+<h2>FriendList</h2>
+
+<div>
+    @Html.ActionLink("To my profile", "MyProfile", "Profile", new { userID = ((SocialNetwork.Models.Users)Session["session"]).ID }, null)
+</div>
+<div>
+    @using (Html.BeginForm("CreateGroup", "FriendManagement", new { userID = user.ID }, FormMethod.Post))
+    {
+        <p>
+            <label>Input title of new group</label>
+        </p>
+        <p>
+            @Html.TextBox("title", ViewData.TemplateInfo.FormattedModelValue, new { @class = "form-control" })
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </p>
+    }
+</div>
+@if (Model.Count() == 0)
+{
+    <label>You don't have friends now, fiend someone!</label>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Middle_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Online)
+            </th>
+            <th>
+                Talk!
+            </th>
+            <th>
+                This user is in group:
+            </th>
+            @{
+                SelectList listLabel = (SelectList)ViewBag.Groups;
+                if (listLabel.Count() > 0)
+                {
+                    <th>
+                        List of all your groups:
+                    </th>
+                    <th>
+                        Change friend's group!
+                    </th>
+                }
+            }
+            <th>
+                See user's profile
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Middle_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Online)
+                </td>
+                <th>
+                    @Html.ActionLink("To chat", "ToChat", "Chat", new { /*userID = user.ID,*/ interlocutorID = item.ID }, null)
+                </th>
+                <th>
+                    @{ Html.RenderAction("InGroup", new { friendID = item.ID });}
+                </th>
+                @using (Html.BeginForm("ChangeGroup", "FriendManagement", new { friendID = item.ID, userID = user.ID }))
+                {
+                    SelectList list = (SelectList)ViewBag.Groups;
+                    if (list.Count() > 0)
+                    {
+                        <th>
+                            @Html.DropDownList("groupID", ViewBag.Groups as SelectList)
+                        </th>
+                        <th>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Change group" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </th>
+                    }
+                }
+                <th>
+                    @Html.ActionLink("To profile", "ShowProfile", "Profile", new { userID = item.ID }, null)
+                </th>
+            </tr>
+        }
+    </table>
+}
+<div>
+    @Html.ActionLink("Find new friend", "FindFriend", "FriendManagement")
+</div>
+@using SocialNetwork.Helpers;
+
+@{
+    SelectList listTest = (SelectList)ViewBag.Groups;
+    if (listTest.Count() > 0)
+    {
+        @Html.GetList(user.ID)
+    }
+}
+

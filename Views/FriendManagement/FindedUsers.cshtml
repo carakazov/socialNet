@@ -1,0 +1,84 @@
+﻿@model IEnumerable<SocialNetwork.Models.Users>
+
+<p>
+    @{ 
+        SocialNetwork.Models.Users user = (SocialNetwork.Models.Users)Session["session"];
+    }
+</p>
+<div id="listDiv">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Middle_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Online)
+            </th>
+            <th>
+                Action
+            </th>
+            <th>
+                Show profile
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Middle_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Online)
+                </td>
+                <td>
+                    @{
+                        bool alreadyFriend = false;
+                        bool requestSent = false;
+                        foreach (SocialNetwork.Models.FriendList friend in user.FriendList)
+                        {
+                            if (item.ID == friend.FriendID)
+                            {
+                                alreadyFriend = true;
+                                <label>Already your friend :)</label>
+                                break;
+                            }
+                        }
+                        foreach (SocialNetwork.Models.RequestsList request in item.RequestsList)
+                        {
+                            if (request.SenderID == user.ID)
+                            {
+                                requestSent = true;
+                                <label>Request is sent.</label>
+                                break;
+                            }
+                        }
+                        if (!alreadyFriend && !requestSent)
+                        {
+                            string divID = "placeFoLabel" + item.ID.ToString();
+                            <div id=@divID>
+                                @Ajax.ActionLink("Add Friend", "AddFriend", "FriendManagement", new { newFriendId = item.ID }, new AjaxOptions { UpdateTargetId = divID })
+                            </div>
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("See profile", "ShowProfile", "Profile", new { userID = item.ID }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

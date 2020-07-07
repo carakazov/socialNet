@@ -1,0 +1,74 @@
+﻿@model SocialNetwork.Models.Users
+
+@{
+    ViewBag.Title = "User Profile";
+    SocialNetwork.Models.Users owner = (SocialNetwork.Models.Users)ViewData["ownerID"];
+    SocialNetwork.Models.Users author = (SocialNetwork.Models.Users)Session["session"];
+    bool areFriends = (bool)ViewData["areFriends"];
+}
+
+<h2>@Model.Name Profile</h2>
+
+<div id="avatar">
+    @using SocialNetwork.Helpers;
+    @Html.DrowAvatar(owner.ID)
+</div>
+
+<div>
+    <h4>Users</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label>Surname: </label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            <label>Name: </label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            <label>Middle name: </label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Middle_name)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <label>Records on the wall:</label>
+    @if (areFriends)
+    {
+        <div id="records">
+            @{Html.RenderAction("ShowRecords", new { userID = owner.ID }); }
+        </div>
+        using (Ajax.BeginForm("WriteRecordOnAlienWall", new { authorID = author.ID, ownerID = owner.ID }, new AjaxOptions { UpdateTargetId = "records", OnComplete = "document.getElementById('newRecord').value = '';" }))
+        {
+            <div>
+                @Html.TextBox("text", null, new { id = "newRecord" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Write" class="btn btn-default" />
+                </div>
+            </div>
+            }
+        }
+        else
+        {
+                    <label>Become friends to write on the wall</label>
+                }
+</div>
+
+<div>
+    @Html.ActionLink("User's albums", "ShowUsersAlbums", "Album", new { userID = owner.ID }, null)
+</div>

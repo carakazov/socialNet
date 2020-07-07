@@ -1,0 +1,16 @@
+﻿<div id="messagesList">
+    @{ 
+        List<string> messages = (List<string>)ViewData["history"];
+        if(messages.Count == 0)
+        {
+            <label>No messages. Write something!</label>
+        }
+        else
+        {
+            foreach(string message in messages)
+            {
+                @message<br />
+            }
+        }
+    }
+</div>

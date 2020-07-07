@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Chat";
+    SocialNetwork.Models.Users interlocutor = (SocialNetwork.Models.Users)ViewData["interlocutor"];
+    SocialNetwork.Models.Users user = (SocialNetwork.Models.Users)Session["session"];
+    @Scripts.Render("~/Scripts/ClientSocket.js");
+}
+
+<h2>Chat</h2>
+<label>Now you are chatting with @interlocutor.Name</label>
+<br />
+<div id="messages">
+    @{ Html.RenderAction("GetList", new { userID = user.ID, interlocutorID = interlocutor.ID, firstTime = true }); }
+</div>
+
+
+<div>
+    @using (Ajax.BeginForm("SendMessage", new { userID = user.ID, interlocutorID = interlocutor.ID }, new AjaxOptions { UpdateTargetId = "messages", OnComplete = "document.getElementById('messageArea').value = '';" }))
+    {
+        <p>Input your message here:</p>
+        <p>
+            @Html.TextArea("messageText", new { id = "messageArea", onClick = "printMyMessage()" })
+        </p>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Log In" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>
+@using SocialNetwork.Helpers;
+@Html.GenerarateScript(user.ID, interlocutor.ID)
+<!--<script type="text/javascript">
+    var request = new XMLHttpRequest()
+    function sendMessageRequest() {
+        request.open('GET', "http://192.168.1.69/Chat/ShowNewMessage?userID=1021&interlocutorID=1018")
+        request.onreadystatechange = printNewMessage
+        request.send()
+    }
+
+    function printNewMessage() {
+        var messageDiv = document.getElementById('messages')
+        if (request.readyState == 4) {
+            var status = request.status
+            {
+                if (status == 200) {
+                    if (request.responseText.length > 0) {
+                        var node = document.createTextNode(request.responseText)
+                        messageDiv.appendChild(node)
+                    }
+                }
+            }
+        }
+    }
+
+    function startSending() {
+        setInterval(sendMessageRequest, 1000)
+    }
+
+    window.onload = function () {
+        this.startSending()
+    }
+</script>-->

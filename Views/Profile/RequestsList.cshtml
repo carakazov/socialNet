@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SocialNetwork.Models.Users>
+@{ 
+    SocialNetwork.Models.Users user = (SocialNetwork.Models.Users)Session["session"];
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Middle_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Online)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Middle_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Online)
+        </td>
+        <td>
+            @{ 
+                string id = "result" + item.ID.ToString();
+                <div id=@id>
+                    @Ajax.ActionLink("Accept", "Accept", "Profile", new { recepientID = user.ID, senderID = item.ID }, new AjaxOptions { UpdateTargetId = id }) |
+                    @Ajax.ActionLink("Decline", "Decline", "Profile", new { recepientID = user.ID, senderID = item.ID }, new AjaxOptions { UpdateTargetId = id })
+                </div>
+             }
+        </td>
+    </tr>
+}
+
+</table>
